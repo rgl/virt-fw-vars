@@ -1,0 +1,5 @@
+# see https://github.com/pyinstaller/pyinstaller
+pyinstaller==6.0.0
+# see https://pypi.org/project/virt-firmware
+# see https://gitlab.com/kraxel/virt-firmware
+virt-firmware==23.9
