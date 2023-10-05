@@ -1,8 +1,8 @@
 name: Build
 on: [push]
 jobs:
-  build:
-    name: Build
+  build-ubuntu:
+    name: Build (Ubuntu)
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -13,6 +13,23 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: artifacts
+          name: artifacts-ubuntu
+          path: |
+            dist/virt-fw-vars.zip
+  build-windows:
+    name: Build (Windows)
+    runs-on: windows-2022
+    steps:
+      - name: Configure git
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - name: Build
+        run: ./build.ps1
+      - name: Test
+        run: ./test.ps1
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts-windows
           path: |
             dist/virt-fw-vars.zip

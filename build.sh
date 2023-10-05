@@ -15,7 +15,7 @@ python3 -m pip install -r requirements.txt
 rm -rf build dist
 pyinstaller \
     --add-binary /usr/bin/qemu-img:. \
-    .venv/bin/virt-fw-vars
+    virt-fw-vars.py
 
 # bundle.
 pushd dist/virt-fw-vars
