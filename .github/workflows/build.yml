@@ -33,3 +33,27 @@ jobs:
           name: artifacts-windows
           path: |
             dist/virt-fw-vars.zip
+  release:
+    if: ${{ startsWith(github.event.ref, 'refs/tags/v') }}
+    name: Release
+    permissions:
+      contents: write
+    runs-on: ubuntu-22.04
+    needs:
+      - build-ubuntu
+      - build-windows
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+      - name: Prepare artifacts
+        run: |
+          mkdir artifacts
+          mv artifacts-ubuntu/virt-fw-vars.zip artifacts/virt-fw-vars-ubuntu.zip
+          mv artifacts-windows/virt-fw-vars.zip artifacts/virt-fw-vars-windows.zip
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: artifacts/*.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
